@@ -1,39 +1,71 @@
 contract DistributionChannelTrace {
 
     struct currentTx {  //  현 시점에서 일어난 도매업자간의 거래를 의미하는 자료구조이다.
-        address txIndex;
-        address sellerAddr;
-        address buyerAddr;
-        string itemName;
-        uint volum;
-        uint totalPrice;
-        string date;
+        string _txIndex;
+        address _sellerAddr;
+        address _buyerAddr;
+        string _itemName;
+        uint _volum;
+        uint _totalPrice;
+        string _date;
     }
 	
 	//  유통 경로 1개당 stack 1개를 만들면서 유통 경로 추적을 가능하게 하는 자료구조이다.
-    mapping(address => currentTx[]) distributionChannelTable;
+    mapping(string => currentTx[]) distributionChannelTable;
 		
-        
-    function sendCurrentTx(address _senderAddress, uint _b) public returns (address _txAddress, uint _addressIndex) {
-        distributionChannelTable[_senderAddress].push(currentTx(_senderAddress, _b));
-        _txAddress = _senderAddress;
-        _addressIndex = _b;
-    }
-    function getTx(address _a, uint _b) public returns(address r_txAddress, uint r_addressIndex){
-        r_txAddress = distributionChannelTable[_a][_b].txAddress;
-        r_addressIndex = distributionChannelTable[_a][_b].addressIndex;
+    /*
+	유통 경로 테이블이 비었다. stack을 만들면서 currentTx를 삽입한다.
+	유통 경로 테이블에 값이 있다.
+		유통 경로 테이블을 전부 검사해서 현재 Tx와 겹치는 Tx가 있는지 검사한다.
+		유통 경로 테이블에 겹치는 거래가 있으면 삽입하면 안된다.
+		유통 경로 테이블에 겹치는 거래가 있다.
+			이전거래인지 검증한다.
+			이전 거래이면 그 위에 push한다.
+			이전 거래가 아니다.
+				이 코드위치는 유통 경로 테이블에 값이 있고 이전거래가 없는 상태이다.
+				stack을 만들면서 currentTx를 삽입한다.
+	*/
+    function sendCurrentTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public {
+        pushTx(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date);
     }
     
-    // 저장된 array의 길이를 각각 체크한다. 디버깅용
-    function getStackLength() public returns(uint stack1Length, uint stack2Length){
-        // r_txAddress = distributionChannelTable[_a][_b].txAddress;
-        // r_addressIndex = distributionChannelTable[_a][_b].addressIndex;
-        stack1Length = distributionChannelTable[0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d].length;
-        stack2Length = distributionChannelTable[0x960f751f23be02a2e5c31dbb4ff3ca47437e9611].length;
+    // 유통 경로 테이블에 currentTx를 push한다.
+    function pushTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public {
+        distributionChannelTable[txIndex].push(currentTx(
+            txIndex,
+            sellerAddr,
+            buyerAddr,
+            itemName,
+            volum,
+            totalPrice,
+            date
+        ));
     }
+    
+  // 디버깅용. tx내용 확인하기
+	function getTx(string txIndex, uint arrayIndex) public returns(string, address, address, string, uint, uint, string){
+		currentTx a = distributionChannelTable[txIndex][arrayIndex];
+		return (
+		    a._txIndex,
+		    a._sellerAddr,
+		    a._buyerAddr,
+		    a._itemName,
+		    a._volum,
+		    a._totalPrice,
+		    a._date
+		);
+	}
+    
+    // 저장된 array의 길이를 각각 체크한다. 디버깅용
+//     function getStackLength() public returns(uint stack1Length, uint stack2Length){
+//         // r_txAddress = distributionChannelTable[_a][_b].txAddress;
+//         // r_addressIndex = distributionChannelTable[_a][_b].addressIndex;
+//         stack1Length = distributionChannelTable[0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d].length;
+//         stack2Length = distributionChannelTable[0x960f751f23be02a2e5c31dbb4ff3ca47437e9611].length;
+//     }
 		
-		// return이 0이면 존재하지 않는다고 간주한다.
-		function isTableEmpty(address _a) public returns (uint _length){
-			_length = distributionChannelTable[_a].length;
-		}
+// 		// return이 0이면 존재하지 않는다고 간주한다.
+// 	function isTableEmpty(address _a) public returns (uint _length){
+// 		_length = distributionChannelTable[_a].length;
+// 	}
 }
