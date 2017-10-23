@@ -1,5 +1,5 @@
 contract DistributionChannelTrace {
-
+	//	doesHaveCurrentTx function 테스트 끝
     struct currentTx {  //  현 시점에서 일어난 도매업자간의 거래를 의미하는 자료구조이다.
         string _txIndex;
         address _sellerAddr;
@@ -26,8 +26,28 @@ contract DistributionChannelTrace {
 				stack을 만들면서 currentTx를 삽입한다.
 	*/
     function sendCurrentTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public {
-        pushTx(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date);
+        // pushTx(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date);
+
     }
+    
+    // 유통 경로 테이블을 전부 검사해서 현재 Tx와 겹치는 Tx가 있는지 검사한다.
+	function doesHaveCurrentTx(string txIndex) public returns (bool){
+	    if(distributionChannelTable[txIndex].length != 0){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+	
+	function testDoesHaveCurrentTx(string txIndex) public returns (bool){
+        if(doesHaveCurrentTx(txIndex)){
+            return true;
+        }else{
+            return false;
+        }		    
+	}
+	
+
     
     // 유통 경로 테이블에 currentTx를 push한다.
     function pushTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public {
@@ -42,7 +62,7 @@ contract DistributionChannelTrace {
         ));
     }
     
-  // 디버깅용. tx내용 확인하기
+    // 디버깅용. tx내용 확인하기
 	function getTx(string txIndex, uint arrayIndex) public returns(string, address, address, string, uint, uint, string){
 		currentTx a = distributionChannelTable[txIndex][arrayIndex];
 		return (
