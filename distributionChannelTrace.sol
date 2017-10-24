@@ -1,10 +1,16 @@
 contract DistributionChannelTrace {
-/*	Android 디바이스에서 smart contract로 값을 push하는 3가지 경우 테스트 완료
-	테이블이 빈 경우 push, 이전거래가 위에 push, 테이블에 값이 있는데 이전거래가 아닌경우 push
-  테스트 데이터는 아래와 같다.(결과는 1, 3, 2)
-	"0xaabb", "0xb1cd96427c550b2cc670c592c4ef061468e28731", "0xf4d8e706cfb25c0decbbdd4d2e2cc10c66376a3f", "rice", 10, 10000, "20170902"
-	"0xffcc", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "rice", 50, 50000, "20170903"
-	"0xbbcc", "0xf4d8e706cfb25c0decbbdd4d2e2cc10c66376a3f", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "rice", 5, 5000, "20170904"
+/*	getMappingLength(), getDistributionChannelStackIndex(), getTx()로 원하는 유통 경로들 받아오기
+		1. getMappingLength()의 결과를 mappingLength에 저장한다.
+    2. getDistributionChannelStackIndex()를 mappingLength 만큼
+			 Android 디바이스에서 파라미터를 바꿔가면서 loop를 실행한다.
+			예) getDistributionChannelStackIndex("0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "rice", 0)
+			   getDistributionChannelStackIndex("0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "rice", 1)...
+		3. getDistributionChannelStackIndex()의 결과로 원하는 유통 경로가 존재하는 mapping index와 해당 index에
+			존재하는 stack의 길이(=거래 갯수)를 저장한 동적배열 distributionChannels[]가 생성된다.
+		4. distributionChannels[]의 length만큼 getTx()를 실행한다.
+			예) getTx(0,1) getTx(1,1) ...
+		5. getTx()들의 결과를 저장한 동적배열 selectedDistributionChannels[]가 생성된다.
+		6. selectedDistributionChannels[]의 인자를 Android의 그래프나 애니메이션에 적용한다. 
 */
     struct currentTx {  //  현 시점에서 일어난 도매업자간의 거래를 의미하는 자료구조이다.
         string _txIndex;
@@ -95,6 +101,40 @@ contract DistributionChannelTrace {
             date
         )); 
     }
+
+	/* Android 디바이스에서 smart contract에 소매업자 account와 소매업자의 품목이 존재하는 유통 경로를 반환한다.
+		1. 소매업자 account와 품목이 존재하는 유통 경로를 찾는다.
+		2. 해당 유통 경로를 최초 거래에서 마지막 거래까지 순차적으로 반환한다.
+		3. r_stackIndex는 mapping에서 스택의 위치를 알려주고, r_stackLength는 stack의 반복횟수를 알려준다.
+		4. Android에서 getDistributionChannelStackIndex()를 여러번 호출해서 이름이 distributionChannels 인자가 (r_stackIndex, r_stackLength)인 동적 배열을 만들고
+			stack 1개의 모든 값을 돌려주는 function을 distributionChannels의 인자수 만큼 호출해서 모든 유통 값을 받는다.
+	*/
+    function getDistributionChannelStackIndex(address retailTraderAddress, string itemName, uint mappingCounter)  public returns(int, int){
+        uint selectedMappingLength = distributionChannelTable[mappingCounter].length;
+        uint i;
+        while(i < selectedMappingLength){
+            if(retailTraderAddress == distributionChannelTable[mappingCounter][i]._buyerAddr){
+                
+                return (int(mappingCounter), int(selectedMappingLength));
+            }
+            i++;
+        }
+        return (int(-1), int(-1));
+    }
+    
+    // tx 1개 get
+	function getTx(uint arrayIndex, uint stackIndex) public returns(string, address, address, string, uint, uint, string){
+		currentTx a = distributionChannelTable[arrayIndex][stackIndex];
+		return (
+		    a._txIndex,
+		    a._sellerAddr,
+		    a._buyerAddr,
+		    a._itemName,
+		    a._volum,
+		    a._totalPrice,
+		    a._date
+		);
+	}
     
     // mapping의 최대 길이를 구한다.
 	function getMappingLength() public returns (uint){
@@ -113,26 +153,4 @@ contract DistributionChannelTrace {
             return false;   //  Tx가 있다.
         }
 	}
-	
-    // 디버깅용. tx내용 확인하기
-	function getTx(uint arrayIndex, uint stackIndex) public returns(string, address, address, string, uint, uint, string){
-		currentTx a = distributionChannelTable[arrayIndex][stackIndex];
-		return (
-		    a._txIndex,
-		    a._sellerAddr,
-		    a._buyerAddr,
-		    a._itemName,
-		    a._volum,
-		    a._totalPrice,
-		    a._date
-		);
-	}
 }
-
-
-
-
-
-
-
-
