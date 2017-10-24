@@ -40,20 +40,6 @@ contract DistributionChannelTrace {
         pushTxForNewDistributionChannel(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date);
         return 3;
     }
-    //  이 코드위치는 유통 경로 테이블에 값이 있고 이전거래가 없는 상태이다.
-    //  즉 테이블에 값이 있고 이전거래가 없어서 새로운 유통 경로를 생성하는 것이다.
-    function pushTxForNewDistributionChannel(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date){
-        distributionChannelTable[getMappingLength()].push(currentTx(
-            txIndex,
-            sellerAddr,
-            buyerAddr,
-            itemName,
-            volum,
-            totalPrice,
-            date
-        )); 
-    }
-
 
     // 유통 경로 테이블이 비었다. stack을 만들면서 currentTx를 삽입한다.
     function pushIntialTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public {
@@ -95,6 +81,20 @@ contract DistributionChannelTrace {
         }
         return result;
     }    
+
+    //  이 코드위치는 유통 경로 테이블에 값이 있고 이전거래가 없는 상태이다.
+    //  즉 테이블에 값이 있고 이전거래가 없어서 새로운 유통 경로를 생성하는 것이다.
+    function pushTxForNewDistributionChannel(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date){
+        distributionChannelTable[getMappingLength()].push(currentTx(
+            txIndex,
+            sellerAddr,
+            buyerAddr,
+            itemName,
+            volum,
+            totalPrice,
+            date
+        )); 
+    }
     
     // mapping의 최대 길이를 구한다.
 	function getMappingLength() public returns (uint){
@@ -128,3 +128,11 @@ contract DistributionChannelTrace {
 		);
 	}
 }
+
+
+
+
+
+
+
+
