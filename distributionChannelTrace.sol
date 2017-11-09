@@ -35,9 +35,11 @@ contract DistributionChannelTrace {
 					이 코드위치는 유통 경로 테이블에 값이 있고 이전거래가 없는 상태이다.
 					stack을 만들면서 currentTx를 삽입한다.
 	*/
+		// setter에서 return을 받을수 없다. return 받으려고 constant쓰면 set이 안되고, set하려고 constant안쓰면 return이 Transaction address가 되버린다.
+		// 
     function sendCurrentTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public returns(uint) {
         if(isTableEmpty()){ // 유통 경로 테이블이 비었다. stack을 만들면서 currentTx를 삽입한다.
-            pushIntialTx(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date);
+            pushInitialTx(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date);
             return 1;
         }else if(pushTxOnPreviousTx(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date)){  //  이전거래이다.
             // true는 이전거래가 있다는 것이고, false는 이전거래가 없다는 뜻이다.
@@ -48,7 +50,7 @@ contract DistributionChannelTrace {
     }
 
     // 유통 경로 테이블이 비었다. stack을 만들면서 currentTx를 삽입한다.
-    function pushIntialTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public {
+    function pushInitialTx(string txIndex, address sellerAddr, address buyerAddr, string itemName, uint volum, uint totalPrice, string date) public {
         distributionChannelTable[0].push(currentTx(
             txIndex,
             sellerAddr,
