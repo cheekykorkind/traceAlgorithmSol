@@ -4,11 +4,12 @@
 		2. debugger-ui : 
 			(4) ["0xb1cd96427c550b2cc670c592c4ef061468e28731", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", BigNumber, "20170902"]
 			
-		3. React Native : // 실험중
+		3. React Native :
 				console.log(result[0]);
 				console.log(result[1]);
 				console.log(result[2].c[0]);
         console.log(result[3]);
+				{from: obj.fromAddress, gas: 2000000}
 		4. 알게된 점 : smart contract function의 파라미터가 커지면, EVM에서 동작할때 파라미터를 복사하는데 사용되는 gas도 증가한다. 
 								gas량을 알맞게 추가해 주지 않으면 EVM는 state를 변화시키지 않는다.
 	*/
