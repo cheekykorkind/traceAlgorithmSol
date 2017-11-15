@@ -1,7 +1,7 @@
 	/* 
-		1. 테스트 명 : React Native에서 getTx를 Promise.all()로 값 받아오기 테스트
+		1. 테스트 명 : 
 			sendCurrentTx()를 6번 보냄.
-			getTx()를 Promise.all로 3번 호출함.
+			getDistributionChannelStackIndex()를 Promise.all로 getMappingLength()만큼 호출함.
 		2. debugger-ui : // 한개만 leaf까지 접근한 것을 적음.
 			(4) [Array(3), Array(3), Array(3), Array(3)]
 			0: (3) [true, BigNumber, BigNumber]
@@ -16,7 +16,7 @@
 			
 		3. React Native : 
 
-		4. 알게된 점 : React Native에서 Promise.all을 사용하면 for()를 사용한 효과를 낼수있다.
+		4. 알게된 점 : 
 	*/
 
 pragma solidity ^0.4.0;
