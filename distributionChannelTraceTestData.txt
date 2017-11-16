@@ -1,12 +1,81 @@
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "rice", 10, 10000, "20170902"
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "rice", 11, 10000, "20170903"
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "rice", 12, 10000, "20170904"
+전체 검증용 데이터
+account A : "0xb1cd96427c550b2cc670c592c4ef061468e28731"
+account B : "0xf4d8e706cfb25c0decbbdd4d2e2cc10c66376a3f"
+account C : "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6"
+account D : "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d"
+account E : "0x5ee321307c38208049faf56c3d224ffcdc301f3e"
+account F : "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611"
+account H : "0xb114adad041601936805c491df7c3bff48a571c2"
+
+txAB1 : "0xaabb"
+txFC1 : "0xffcc"
+txBC1 : "0xbbcc"
+txCD1 : "0xccdd"
+txEC1 : "0xeecc"
+txHD1 : "0xhhdd"
+
+sendCurrentTx()에 입력할 파라미터
+"0xaabb", "0xb1cd96427c550b2cc670c592c4ef061468e28731", "0xf4d8e706cfb25c0decbbdd4d2e2cc10c66376a3f", "rice", 10, 10000, "20170902"
+"0xffcc", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "rice", 50, 50000, "20170903"
+"0xbbcc", "0xf4d8e706cfb25c0decbbdd4d2e2cc10c66376a3f", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "rice", 5, 5000, "20170904"
+"0xccdd", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "rice", 70, 70000, "20170905"
+"0xeecc", "0x5ee321307c38208049faf56c3d224ffcdc301f3e", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", "rice", 40, 40000, "20170906"
+"0xhhdd", "0xb114adad041601936805c491df7c3bff48a571c2", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "rice", 60, 40000, "20170907"
+
+getDistributionChannelStackIndex()에 입력할 파라미터
+account D를 소매자로 가정한다.
+"0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "rice", 0	//	예상 결과 true
+"0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "rice", 1	//	예상 결과 true
+"0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "rice", 2	//	예상 결과 false
+"0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "rice", 3	//	예상 결과 true
 
 
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "rice", 10, 10000, "20170902"
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "rice", 10, 10000
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "rice", 10
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "rice"
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d", "0x960f751f23be02a2e5c31dbb4ff3ca47437e9611"
-"0x333dc52494bbbb14aa442ff73838581172bf934614ab2070f5d6d07d6765d03c", "0xd5ff82c1ec6f6f834ec5b3ce9a039fa6fe86f40d"
+"0xb1cd96427c550b2cc670c592c4ef061468e28731", "0xf4d8e706cfb25c0decbbdd4d2e2cc10c66376a3f", 10000, "20170902"
+"0x960f751f23be02a2e5c31dbb4ff3ca47437e9611", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", 50000, "20170903"
+"0xf4d8e706cfb25c0decbbdd4d2e2cc10c66376a3f", "0x7d42e5038444fbfa0b9d9d8c15eff1e27dc5bec6", 5000, "20170904"
 
+// 목표 gasPrice + gasUsed
+// gasPrice 얻는 함수
+web3.eth.getGasPrice(callback(error, result){ ... })
+// gasUsed 얻는 함수
+web3.eth.estimateGas(callObject [, callback])
+data 자리에 byte string이 들어가야 한다고 함.
+        // currentTx memory _tx = currentTx(
+        //     txIndex,
+        //     sellerAddr,
+        //     buyerAddr,
+        //     itemName,
+        //     volum,
+        //     totalPrice,
+        //     date
+        // );
+
+    //     currentTx memory _tx;
+    //     _tx._txIndex = txIndex;
+	   // _tx._sellerAddr = sellerAddr;
+	   // _tx._buyerAddr = buyerAddr;
+	   // _tx._itemName = itemName;
+	   // _tx._volum = volum;
+	   // _tx._totalPrice = totalPrice;
+	   // _tx._date = date;
+        // currentTx memory tx = currentTx({
+        //     _txIndex: txIndex,
+        //     _sellerAddr: sellerAddr,
+        //     _buyerAddr: buyerAddr,
+        //     _itemName: itemName,
+        //     _volum: volum,
+        //     _totalPrice: totalPrice,
+        //     _date: date
+        // });
+        // var tx;
+        // tx = currentTx(
+        //     txIndex,
+        //     sellerAddr,
+        //     buyerAddr,
+        //     itemName,
+        //     volum,
+        //     totalPrice,
+        //     date
+        // );
+        // currentTx(txIndex, sellerAddr, buyerAddr, itemName, volum, totalPrice, date);
+        // currentTx({_txIndex: txIndex, _sellerAddr: sellerAddr, _buyerAddr: buyerAddr, _itemName: itemName, _volum: volum, _totalPrice: totalPrice, _date: date});
